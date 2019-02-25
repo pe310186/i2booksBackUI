@@ -1,5 +1,14 @@
 <template>
     <v-container>
+        <top :path="path"></top>
+        <v-layout row>
+            <v-flex xs2>
+                <left></left>
+            </v-flex>
+            <v-flex xs10>
+                <middle :path="path"></middle>
+            </v-flex>
+        </v-layout>
     </v-container>
 </template>
 
@@ -7,10 +16,11 @@
 import api from '../../store/api'
 
 export default {
+    props:['path'],
     beforeMount(){
         let token=localStorage.getItem('token');
         console.log(token)
-        api.checkAccount(token).catch(error=>{
+        api.backendCheck(token).catch(error=>{
             this.$router.push('/');
         })
     }

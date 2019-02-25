@@ -13,7 +13,7 @@ export default new Router({
       component: Startpage
     },
     {
-      path:'/home',
+      path:'/home/:path',
       name:'Home',
       component: Home,
       props:true,

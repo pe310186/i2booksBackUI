@@ -25,9 +25,9 @@ export default {
         login(){
             api.login(this.account,this.password).then(res=>{
                 localStorage.setItem('token',res.data.token)
-                this.$router.push('/home')
+                this.$router.push('/home/homePage')
             }).catch(error=>{
-                alert(error);
+                alert('帳號或密碼不正確');
             })
         }
     }

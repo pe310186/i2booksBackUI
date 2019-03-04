@@ -42,7 +42,22 @@
                     <br>
                 </v-card>
             </v-dialog>
-            <v-btn @click="deleteAccount()" v-if="selected.length>=1">刪除</v-btn>
+            <v-dialog v-model="dialog[2]" v-if="selected.length>=1" width="600">
+                <v-btn slot="activator">刪除</v-btn>
+                <v-card>
+                    <br>
+                    <v-flex offset-xs1>
+                        <p>確認刪除以下帳戶:</p>
+                        <p v-for="item in selected" v-bind:key="item.id">
+                            <pre>名稱:{{item.name}}&#9;帳號:{{item.account}}</pre>
+                        </p>
+                    </v-flex>
+                    <center>
+                        <v-btn @click="deleteAccount()">刪除</v-btn>
+                    </center>
+                    <br>
+                </v-card>
+            </v-dialog>
             <v-spacer></v-spacer>
             <v-text-field v-model="search" label="搜尋" class="input-group--focused"></v-text-field>
             <v-spacer></v-spacer>
@@ -120,7 +135,7 @@ export default {
                 level:'',
             },
             level:['一般會員','高級會員','員工'],
-            dialog:[false],
+            dialog:[false,false,false],
             errorMessages:['',''],
         }
     },
@@ -237,10 +252,12 @@ export default {
             }
         },
         deleteAccount(){
+            let token = localStorage.getItem('token')
             let ids = []
             for(var i in this.selected){
                 ids.push(this.selected[i].id)
             }
+            console.log(ids)
             api.deleteAccount(token,ids).then(res=>{
                 alert('刪除成功')
                 window.location.reload()

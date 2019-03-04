@@ -6,6 +6,9 @@
         <v-card v-if="path=='member'" flat>
             <member></member>
         </v-card>
+        <v-card v-if="path=='publish'" flat>
+            <publish></publish>
+        </v-card>
     </v-container>
 </template>
 

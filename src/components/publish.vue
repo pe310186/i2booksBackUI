@@ -1,0 +1,144 @@
+<template>
+    <v-container>
+        <v-spacer></v-spacer>
+        <v-layout row>
+            <v-text-field v-model="search" label="ISBN搜尋" class="input-group--focused"></v-text-field>
+            <v-btn @click="isbnSearch()"><v-icon>search</v-icon></v-btn>
+        </v-layout>
+        <v-spacer></v-spacer>
+        <v-layout row><v-flex xs6 md6 lg6>
+            <v-layout column>
+                <v-text-field label="書名" outline v-model="product.title" :error-messages="errorMessages[0]"></v-text-field>
+                <v-text-field label="ISBN" outline v-model="product.isbn"></v-text-field>
+                <v-select v-model="product.type" label="類別" attach :items="types" ></v-select>
+                <v-text-field label="作者" outline v-model="product.authors"></v-text-field>
+                <v-text-field label="出版日期" outline v-model="product.publishedDate"></v-text-field>
+                <v-text-field label="數量" outline v-model="product.number"></v-text-field>
+                <v-layout row>
+                    <v-text-field label="原價" outline v-model="product.price"></v-text-field>
+                    <v-spacer></v-spacer>
+                    <v-text-field label="售價" outline v-model="product.price"></v-text-field>
+                </v-layout>
+            </v-layout>
+            </v-flex>
+            <v-flex offset-xs1>
+                <font size="3"><p>圖片:</p></font>
+                <v-carousel :cycle="false" height="480px">
+                    <v-carousel-item v-for="(item,i) in product.pics" :key="i" next-icon="mdi-dark mdi-arrow-right">
+                        <v-btn @click="deletePic(i)">刪除圖片</v-btn>
+                        <v-img :src="item.url" contain></v-img> 
+                    </v-carousel-item>
+                </v-carousel>
+                <center>
+                <upload-button title="新增圖片" name="pic" :selectedCallback="Upload"></upload-button>
+                </center>
+            </v-flex>
+        </v-layout>
+        <font size="3"><p>內容簡介:</p></font>
+        <v-textarea auto-grow v-model="product.description" outline></v-textarea>
+        <font size="3"><p>備註:</p></font>
+        <v-textarea auto-grow v-model="product.ps" outline></v-textarea>
+        <center>
+            <v-btn @click="create()">新增</v-btn>
+        </center>
+    </v-container>
+</template>
+
+<script>
+import api from '../store/api.js'
+export default {
+    data(){
+        return{
+            search:'',
+            product:{
+                title:'',
+                isbn:'',
+                type:'',
+                authors:'',
+                number:'',//數量
+                price:'',//原價
+                sell:'',//售價
+                ps:'',//備註
+                description:'',
+                publishedDate:'',//出版日期
+                pics:[],
+            },
+            types:[],
+            errorMessages:[''],
+        }
+    },
+    watch:{
+        'product.title'(newTitle,oldTitle){
+            api.getProductByTitle(newTitle).then(product=>{
+                this.errorMessages[0] = '此書已刊登過'
+            }).catch(error=>{
+                this.errorMessages[0] = ''
+            })
+        }
+    },
+    methods:{
+        isbnSearch(){
+            let self = this
+            api.isbnSearch(this.search).then(res=>{
+                console.log(res.data.book)
+                self.product.title = res.data.book.title
+                self.product.publishedDate = res.data.book.publishedDate
+                self.product.authors = ''
+                for(var i in res.data.book.authors){
+                    console.log(i)
+                    self.product.authors += res.data.book.authors[i]
+                    if(i != res.data.book.authors.length-1){
+                        self.product.authors += ','
+                    }
+                }
+                self.product.isbn = self.search 
+                console.log(self.product)
+            }).catch(error=>{
+                alert('查無此isbn')
+            })
+        },
+        Upload(genre, file,src)
+        {
+            this.product.pics.push(file)
+            this.product.pics[this.product.pics.length-1].url = URL.createObjectURL(file)
+        },
+        deletePic(index){
+            this.product.pics.splice(index,1)
+        },
+        create(){
+            let token = localStorage.getItem('token')
+            let formdata = new FormData()
+            const list=['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','pics']
+            for(var i of list){
+                if(i == 'pics'){
+                    for(var j in this.product.pics){
+                        formdata.append("pics",this.product.pics[j])
+                    }
+                    
+                }
+                else{
+                    formdata.append(i,this.product[i])
+                }
+            }
+            api.createProduct(token,formdata).then(res=>{
+                alert('新增成功')
+                window.location.reload()
+            }).catch(error=>{
+                alert('新增失敗')
+            })
+        }
+    },
+    beforeMount(){
+        // api.getProductType().then(res=>{
+        //     types = res.data.types
+        // }).catch(error=>{
+        // })
+    }
+}
+</script>
+
+<style>
+.pic{
+    background-size: contain
+}
+</style>

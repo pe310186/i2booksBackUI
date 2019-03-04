@@ -27,5 +27,31 @@ export default {
     },
     update(token,id,data){
         return client.put('/account/'+id,data,{headers:{"Auth":token}})
+    },
+    deleteAccount(token,ids){
+        let config = {
+            headers:{
+                'Auth': token,
+            },
+            data:{
+                'ids':ids
+            }
+        }
+        return client.delete('./account',config)
+    },
+    isbnSearch(isbn){
+        return client.get('./product/isbn/'+ isbn)
+    },
+    createProduct(token,formdata){
+        let config = {
+            headers: {
+                'Auth': token,
+                'content-type': 'multipart/form-data'
+            }
+        }
+        return client.post('./product/create',formdata,config)
+    },
+    getProductByTitle(title){
+        return client.get('./product/title/'+ title)
     }
 }

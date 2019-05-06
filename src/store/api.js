@@ -117,7 +117,7 @@ export default {
     updateProductType(token,id,name){
         return client.put('/product/type/' + id,{name:name},{headers:{'Auth':token}})
     },
-    deleteType:function(token,ids){
+    deleteType(token,ids){
         let config = {
             headers:{
                 'Auth': token,
@@ -127,5 +127,8 @@ export default {
             }
         }
         return client.delete('./product/type',config)
+    },
+    updateArticle(token,id,content){
+        return client.put('./article/' + id , {content:content},{headers:{'Auth':token}})
     }
 }

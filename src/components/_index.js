@@ -7,6 +7,8 @@ import Publish from './publish.vue'
 import UploadButton from './UploadButton.vue'
 import Product from './product.vue'
 import Type from './product_type.vue'
+import About from './about.vue'
+import Editorbar from './editorbar.vue'
 
 export default{
     Left:Left,
@@ -18,4 +20,6 @@ export default{
     UploadButton: UploadButton,
     Product: Product,
     Type: Type,
+    About: About,
+    Editorbar:Editorbar,
 }

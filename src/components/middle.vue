@@ -15,6 +15,9 @@
         <v-card v-if="path=='type'" flat>
             <type></type>
         </v-card>
+        <v-card v-if="path=='about'" flat>
+            <about></about>
+        </v-card>
     </v-container>
 </template>
 

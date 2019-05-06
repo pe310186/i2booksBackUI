@@ -5,6 +5,8 @@ import Home from './homePage.vue'
 import Member from './member.vue'
 import Publish from './publish.vue'
 import UploadButton from './UploadButton.vue'
+import Product from './product.vue'
+import Type from './product_type.vue'
 
 export default{
     Left:Left,
@@ -14,4 +16,6 @@ export default{
     Member:Member,
     Publish: Publish,
     UploadButton: UploadButton,
+    Product: Product,
+    Type: Type,
 }

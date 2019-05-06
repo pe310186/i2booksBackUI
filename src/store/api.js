@@ -53,5 +53,79 @@ export default {
     },
     getProductByTitle(title){
         return client.get('./product/title/'+ title)
+    },
+    getCarousel(){
+        return client.get('./carousel')
+    },
+    createCarousel(token,formdata){
+        let config = {
+            headers:{
+                'Auth': token,
+                'content-type': 'multipart/form-data'
+            }
+        }
+        return client.post('./carousel',formdata,config)
+    },
+    deleteCarousel(token,id){
+        console.log(token)
+        return client.delete('/carousel/'+id,{headers:{"Auth":token}})
+    },
+    changeQueue(token,pic1,pic2){
+        let pics = [pic1,pic2]
+        return client.put('/carousel',pics,{headers:{"Auth":token}})
+    },
+    getProduct(){
+        return client.get('/product')
+    },
+    deleteProduct:function(token,ids){
+        let config = {
+            headers:{
+                'Auth': token,
+            },
+            data:{
+                'ids':ids
+            }
+        }
+        return client.delete('./product',config)
+    },
+    updateProduct:function(token,data,id){
+        return client.put('./product/'+id,data,{headers:{"Auth":token}})
+    },
+    changeProductQueue(token,id,pic1,pic2){
+        let pics = [pic1,pic2]
+        return client.put('/product/queue/'+id,pics,{headers:{"Auth":token}})
+    },
+    createProductPic(token,id,formdata){
+        let config = {
+            headers:{
+                'Auth': token,
+                'content-type': 'multipart/form-data'
+            }
+        }
+        return client.post('./product/pic/'+id,formdata,config)
+    },
+    deleteProductPic(token,id,index){
+        return client.delete('/product/pic/'+id +'/'+ index,{headers:{"Auth":token}})
+    },
+    getProductType(){
+        return client.get('/product/type')
+    },
+    createProductType(token,name){
+        console.log(name)
+        return client.post('/product/type',{name:name},{headers:{"Auth":token}})
+    },
+    updateProductType(token,id,name){
+        return client.put('/product/type/' + id,{name:name},{headers:{'Auth':token}})
+    },
+    deleteType:function(token,ids){
+        let config = {
+            headers:{
+                'Auth': token,
+            },
+            data:{
+                'ids':ids
+            }
+        }
+        return client.delete('./product/type',config)
     }
 }

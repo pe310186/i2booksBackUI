@@ -19,7 +19,6 @@ export default {
     props:['path'],
     beforeMount(){
         let token=localStorage.getItem('token');
-        console.log(token)
         api.backendCheck(token).catch(error=>{
             this.$router.push('/');
         })

@@ -18,12 +18,12 @@ export default {
                 {title:'關於我們',src:'about'},
                 {title:'賣二手書',src:'sell'},
                 {title:'會員管理',src:'member'},
-                {title:'電子報',src:'newsletter'}
+                {title:'電子報',src:'newsletter'},
+                {title:'產品類別管理',src:'type'}
             ]
         }
     },
     beforeMount(){
-        console.log(this.path)
     }
 }
 </script>

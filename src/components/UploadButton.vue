@@ -15,6 +15,7 @@
     methods: {
       fileSelected(e) {
         if (this.selectedCallback) {
+          console.log(e)
           if (e.target.files[0]) {
             this.selectedCallback(this.name, e.target.files[0], e.target.value);
           } else {

@@ -9,12 +9,20 @@
         <v-card v-if="path=='publish'" flat>
             <publish></publish>
         </v-card>
+        <v-card v-if="path=='product'" flat>
+            <product></product>
+        </v-card>
+        <v-card v-if="path=='type'" flat>
+            <type></type>
+        </v-card>
     </v-container>
 </template>
 
 <script>
 export default {
-    props:['path']
+    props:['path'],
+    beforeMount(){
+    }
 }
 </script>
 

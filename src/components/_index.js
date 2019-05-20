@@ -9,6 +9,7 @@ import Product from './product.vue'
 import Type from './product_type.vue'
 import About from './about.vue'
 import Editorbar from './editorbar.vue'
+import Sell from './sell.vue'
 
 export default{
     Left:Left,
@@ -22,4 +23,5 @@ export default{
     Type: Type,
     About: About,
     Editorbar:Editorbar,
+    Sell: Sell,
 }

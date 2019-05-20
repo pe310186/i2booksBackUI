@@ -24,7 +24,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: ''
+      required: true
     },
     isClear: {
       type: Boolean,
@@ -37,6 +37,10 @@ export default {
         this.editor.txt.clear()
         this.info_ = null
       }
+    },
+    value (val) {
+      // 使用 v-model 时，设置初始值
+      this.editor.txt.html(val)
     }
   },
   mounted () {
@@ -64,8 +68,6 @@ export default {
         'justify', // 對齊
         'image', // 插入圖片
         'table', // 表格
-        'undo', // 回復
-        'redo' // 重複
       ]
 
       this.editor.customConfig.uploadImgHooks = {

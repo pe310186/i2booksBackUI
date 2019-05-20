@@ -130,5 +130,8 @@ export default {
     },
     updateArticle(token,id,content){
         return client.put('./article/' + id , {content:content},{headers:{'Auth':token}})
+    },
+    getArticle(id){
+        return client.get('./article/'+id)
     }
 }

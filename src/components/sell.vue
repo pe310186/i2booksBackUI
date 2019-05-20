@@ -27,7 +27,7 @@ export default {
         },
         save(){
             let token = localStorage.getItem('token')
-            api.updateArticle(token,1,this.editor.info).then(res=>{
+            api.updateArticle(token,2,this.editor.info).then(res=>{
                 alert('儲存成功')
                 window.location.reload()
             }).catch(error=>{
@@ -37,7 +37,7 @@ export default {
     },
     beforeMount(){
         let self = this
-         api.getArticle(1).then(res=>{
+         api.getArticle(2).then(res=>{
             self.editor.info = res.data.article.content
          }).catch(error=>{
 

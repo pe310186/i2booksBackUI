@@ -107,15 +107,17 @@ export default {
     deleteProductPic(token,id,index){
         return client.delete('/product/pic/'+id +'/'+ index,{headers:{"Auth":token}})
     },
-    getProductType(){
+    getProductType(superID){
+        return client.get('/product/type/'+superID)
+    },
+    getAllProductType(){
         return client.get('/product/type')
     },
-    createProductType(token,name){
-        console.log(name)
-        return client.post('/product/type',{name:name},{headers:{"Auth":token}})
+    createProductType(token,data){
+        return client.post('/product/type',data,{headers:{"Auth":token}})
     },
-    updateProductType(token,id,name){
-        return client.put('/product/type/' + id,{name:name},{headers:{'Auth':token}})
+    updateProductType(token,id,data){
+        return client.put('/product/type/' + id,data,{headers:{'Auth':token}})
     },
     deleteType(token,ids){
         let config = {

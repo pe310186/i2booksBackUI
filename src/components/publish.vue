@@ -6,7 +6,7 @@
             <v-btn @click="isbnSearch()"><v-icon>search</v-icon></v-btn>
         </v-layout>
         <v-spacer></v-spacer>
-        <v-layout row><v-flex xs6 md6 lg6>
+        <v-layout row><v-flex xs5 md5 lg5>
             <v-layout column>
                 <v-text-field label="書名" outline v-model="product.title" :error-messages="errorMessages[0]"></v-text-field>
                 <v-text-field label="ISBN" outline v-model="product.isbn"></v-text-field>
@@ -14,25 +14,30 @@
                 <v-text-field label="作者" outline v-model="product.authors"></v-text-field>
                 <v-layout row>
                     <v-text-field label="出版日期" outline v-model="product.publishedDate"></v-text-field>
-                    <v-spacer></v-spacer>
+                    <P>&nbsp;&nbsp;&nbsp;</P>
                     <v-text-field label="出版社" outline v-model="product.publisher"></v-text-field>
                 </v-layout>
                 <v-text-field label="數量" outline v-model="product.number"></v-text-field>
                 <v-layout row>
                     <v-text-field label="原價" outline v-model="product.price"></v-text-field>
-                    <v-spacer></v-spacer>
+                    <p>&nbsp;&nbsp;&nbsp;</p>
                     <v-text-field label="售價" outline v-model="product.sell"></v-text-field>
+                </v-layout>
+                <p><font size="4">商品設定:</font></p>
+                <v-layout row>
+                    <v-checkbox label="顯示" v-model="product.visible"></v-checkbox>
+                    <v-checkbox label="特價" v-model="product.on_sale"></v-checkbox>
                 </v-layout>
             </v-layout>
             </v-flex>
             <v-flex offset-xs1>
                 <font size="3"><p>圖片:</p></font>
-                <v-carousel :cycle="false" height="480px">
+                <v-carousel :cycle="false" height="550px">
                     <v-carousel-item v-for="(item,i) in product.pics" :key="i" next-icon="mdi-dark mdi-arrow-right">
                         <v-btn @click="fronter(i)" v-if="i!==0">上移</v-btn>
                         <v-btn @click="backer(i)" v-if="i!==(product.pics.length-1)">下移</v-btn>
                         <v-btn @click="deletePic(i)">刪除圖片</v-btn>
-                        <v-img :src="item.url" contain></v-img> 
+                        <v-img :src="item.url" contain max-height="460px"></v-img> 
                     </v-carousel-item>
                 </v-carousel>
                 <center>
@@ -69,6 +74,8 @@ export default {
                 description:'',
                 publishedDate:'',//出版日期
                 pics:[],
+                visible: true,
+                on_sale: false,
             },
             types:[],
             errorMessages:[''],
@@ -76,7 +83,9 @@ export default {
     },
     watch:{
         'product.title'(newTitle,oldTitle){
-            api.getProductByTitle(newTitle).then(product=>{
+            console.log(newTitle)
+            api.getProductByTitle(newTitle).then(res=>{
+                console.log(product)
                 this.errorMessages[0] = '此書已刊登過'
             }).catch(error=>{
                 this.errorMessages[0] = ''
@@ -112,9 +121,19 @@ export default {
             this.product.pics.splice(index,1)
         },
         create(){
+            
+            api.getProductByTitle(this.product.title).then(res=>{
+                alert('此書已刊登過')
+                this.errorMessages[0] = '此書已刊登過'
+                return
+            }).catch(error=>{
+                this.errorMessages[0] = ''
+            })
             let token = localStorage.getItem('token')
             let formdata = new FormData()
-            const list=['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','pics']
+            const list=['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','pics','visible','on_sale']
+            console.log(this.product.visible)
+            console.log(this.product.on_sale)
             for(var i of list){
                 if(i == 'pics'){
                     for(var j in this.product.pics){

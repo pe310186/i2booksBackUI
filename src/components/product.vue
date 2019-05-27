@@ -15,6 +15,11 @@
                             <v-text-field label="作者" outline v-model="product.authors"></v-text-field>
                             <v-text-field label="出版日期" outline v-model="product.publishedDate"></v-text-field>
                             <v-text-field label="數量" outline v-model="product.number"></v-text-field>
+                            <p>商品設定:</p>
+                            <v-layout row>
+                                <v-checkbox label="顯示" v-model="product.visible"></v-checkbox>
+                                <v-checkbox label="特價" v-model="product.on_sale"></v-checkbox>
+                            </v-layout>
                             <v-layout row>
                                 <v-text-field label="原價" outline v-model="product.price"></v-text-field>
                                 <v-spacer></v-spacer>
@@ -97,9 +102,9 @@
                 <td>{{ props.item.id }}</td>
                 <td>{{ props.item.title }}</td>  
                 <td >{{ props.item.type }}</td>
-                <td>{{ props.item.isbn }}</td>
+                <td>{{ visible_map[props.item.visible] }}</td>
+                <td>{{ on_sale_map[props.item.on_sale] }}</td>
                 <td>{{ props.item.number }}</td>
-                <td>{{ props.item.sell }}</td>
                 <td>
                     <v-dialog v-model="dialog[0]" width="1000px">
                         <v-btn @click="detail(props.item.id)" slot="activator">詳細</v-btn>
@@ -157,9 +162,10 @@ export default {
                 {text:'編號',align: 'left',sortable: true,value: 'id'},
                 {text:'書名',align: 'left',sortable: false,value: 'title'},
                 {text:'類別',align: 'left',sortable: true,value: 'type'},
-                {text:'ISBN',align: 'left',sortable: false,value: 'isbn',},
+                //{text:'ISBN',align: 'left',sortable: false,value: 'isbn',},
+                {text:'顯示',align: 'left',sortable: true,value: 'visible'},
+                {text:'特價',align: 'left',sortable: true,value: 'on_sale'},
                 {text:'數量',align: 'left',sortable: true,value: 'number'},
-                {text:'售價',align:'left',sortable: false,value:'sell'},
                 {text:'詳細',align:'left',sortable:false,value:'detail'},
             ],
             products:[],
@@ -176,10 +182,14 @@ export default {
                 publishedDate:'',//出版日期
                 publisher:'',//出版社
                 pic:[],
+                visible:false,
+                on_sale:false
             },
             types:[],
             dialog:[false,false,false],
             errorMessages:[''],
+            visible_map:['隱藏','顯示'],
+            on_sale_map:['無','特價']
         }
     },
     methods:{
@@ -240,13 +250,12 @@ export default {
         },
         updateConfirm(){
             let token = localStorage.getItem('token')
-            const list = ['title','isbn','type','authors','number','price','sell','ps','description','publishedDate']
+            const list = ['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','visible','on_sale']
             let obj = {
             }
             for(var i of list){
                 obj[i] = this.product[i]
             }
-            console.log(obj)
             api.updateProduct(token,obj,this.product.id).then(res=>{
                 alert('修改成功')
                 window.location.reload()
@@ -288,8 +297,8 @@ export default {
     beforeMount(){
         let self = this
         api.getProduct().then(res=>{
-            self.products =  res.data.products
             console.log(self.products)
+            self.products =  res.data.products
         }).catch(error=>{
         })
 

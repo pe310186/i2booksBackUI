@@ -24,7 +24,6 @@ export default {
     },
     methods:{
         changeRoute(src){
-            console.log(src)
             this.$router.push('/home/'+src)
         }
     },

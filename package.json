@@ -18,6 +18,7 @@
     "vue": "^2.5.2",
     "vue-froala-wysiwyg": "^2.9.5",
     "vue-router": "^3.0.1",
+    "vue-tree-chart": "^1.2.5",
     "vue-wangeditor-simple": "^1.7.3",
     "vue2-editor": "^2.6.6",
     "vuetify": "^1.5.1",

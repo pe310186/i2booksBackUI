@@ -119,13 +119,13 @@ export default {
     updateProductType(token,id,data){
         return client.put('/product/type/' + id,data,{headers:{'Auth':token}})
     },
-    deleteType(token,ids){
+    deleteType(token,id){
         let config = {
             headers:{
                 'Auth': token,
             },
             data:{
-                'ids':ids
+                'id':id
             }
         }
         return client.delete('./product/type',config)
@@ -135,5 +135,5 @@ export default {
     },
     getArticle(id){
         return client.get('./article/'+id)
-    }
+    },
 }

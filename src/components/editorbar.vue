@@ -52,7 +52,7 @@ export default {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)
 
       this.editor.customConfig.uploadImgShowBase64 = true // base 64 儲存圖片
-      this.editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024 // 將圖片大小限制為20M
+      this.editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024 // 將圖片大小限制為3M
 
       // 配置菜單
       this.editor.customConfig.menus = [
@@ -67,7 +67,7 @@ export default {
         'link', // 超連結
         'justify', // 對齊
         'image', // 插入圖片
-        'table', // 表格
+        'table',
       ]
 
       this.editor.customConfig.uploadImgHooks = {

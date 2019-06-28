@@ -6,10 +6,11 @@ import Member from './member.vue'
 import Publish from './publish.vue'
 import UploadButton from './UploadButton.vue'
 import Product from './product.vue'
-import Type from './product_type.vue'
+import Type from './productType.vue'
 import About from './about.vue'
 import Editorbar from './editorbar.vue'
 import Sell from './sell.vue'
+import Tree from './tree.vue'
 
 export default{
     Left:Left,
@@ -24,4 +25,5 @@ export default{
     About: About,
     Editorbar:Editorbar,
     Sell: Sell,
+    Tree: Tree,
 }

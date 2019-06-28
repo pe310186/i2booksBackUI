@@ -12,14 +12,14 @@
         <v-card v-if="path=='product'" flat>
             <product></product>
         </v-card>
-        <v-card v-if="path=='type'" flat>
-            <type></type>
-        </v-card>
         <v-card v-if="path=='about'" flat>
             <about></about>
         </v-card>
         <v-card v-if="path=='sell'" flat>
             <sell></sell>
+        </v-card>
+        <v-card v-if="path == 'type'" flat>
+            <type></type>
         </v-card>
     </v-container>
 </template>
@@ -28,6 +28,7 @@
 export default {
     props:['path'],
     beforeMount(){
+        console.log(this.path)
     }
 }
 </script>

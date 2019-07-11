@@ -121,7 +121,7 @@ export default {
             this.product.pics.splice(index,1)
         },
         create(){
-            const filledList = ['title','isbn','type','number','price','sell']
+            const filledList = ['title','isbn','type']
 
             for(var i of filledList){
                 if(this.product[i] == ''){

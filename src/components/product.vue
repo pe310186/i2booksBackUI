@@ -199,7 +199,6 @@ export default {
             for(var i in this.products){
                 if(this.products[i].id == id){
                     this.product = this.products[i]
-                    console.log(this.product)
                     return
                 }
             }
@@ -248,7 +247,7 @@ export default {
             })
         },
         updateConfirm(){
-            const filledList = ['title','isbn','type','number','price','sell']
+            const filledList = ['title','isbn','type']
 
             for(var i of filledList){
                 if(this.product[i] == ''){

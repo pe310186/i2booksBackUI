@@ -8,20 +8,20 @@
         <v-spacer></v-spacer>
         <v-layout row><v-flex xs5 md5 lg5>
             <v-layout column>
-                <v-text-field label="書名" outline v-model="product.title" :error-messages="errorMessages[0]"></v-text-field>
-                <v-text-field label="ISBN" outline v-model="product.isbn"></v-text-field>
-                <v-select v-model="product.type" label="類別" attach :items="types" ></v-select>
+                <v-text-field label="*書名" outline v-model="product.title" :error-messages="errorMessages[0]"></v-text-field>
+                <v-text-field label="*ISBN" outline v-model="product.isbn"></v-text-field>
+                <v-select v-model="product.type" label="*類別" attach :items="types" item-text="name" item-value="id"></v-select>
                 <v-text-field label="作者" outline v-model="product.authors"></v-text-field>
                 <v-layout row>
                     <v-text-field label="出版日期" outline v-model="product.publishedDate"></v-text-field>
                     <P>&nbsp;&nbsp;&nbsp;</P>
                     <v-text-field label="出版社" outline v-model="product.publisher"></v-text-field>
                 </v-layout>
-                <v-text-field label="數量" outline v-model="product.number"></v-text-field>
+                <v-text-field label="*數量" outline v-model="product.number"></v-text-field>
                 <v-layout row>
-                    <v-text-field label="原價" outline v-model="product.price"></v-text-field>
+                    <v-text-field label="*原價" outline v-model="product.price"></v-text-field>
                     <p>&nbsp;&nbsp;&nbsp;</p>
-                    <v-text-field label="售價" outline v-model="product.sell"></v-text-field>
+                    <v-text-field label="*售價" outline v-model="product.sell"></v-text-field>
                 </v-layout>
                 <p><font size="4">商品設定:</font></p>
                 <v-layout row>
@@ -121,7 +121,15 @@ export default {
             this.product.pics.splice(index,1)
         },
         create(){
-            
+            const filledList = ['title','isbn','type','number','price','sell']
+
+            for(var i of filledList){
+                if(this.product[i] == ''){
+                    alert('有必填選項未填')
+                    return
+                }
+            }
+
             api.getProductByTitle(this.product.title).then(res=>{
                 alert('此書已刊登過')
                 this.errorMessages[0] = '此書已刊登過'
@@ -129,11 +137,10 @@ export default {
             }).catch(error=>{
                 this.errorMessages[0] = ''
             })
+
             let token = localStorage.getItem('token')
             let formdata = new FormData()
             const list=['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','pics','visible','on_sale']
-            console.log(this.product.visible)
-            console.log(this.product.on_sale)
             for(var i of list){
                 if(i == 'pics'){
                     for(var j in this.product.pics){
@@ -168,10 +175,8 @@ export default {
     },
     beforeMount(){
         let self = this
-        api.getProductType().then(res=>{
-            for(var i in res.data.types){
-                self.types.push(res.data.types[i].name)
-            }
+        api.getAllProductType().then(res=>{
+            self.types = res.data.types
         }).catch(error=>{
         })
     }

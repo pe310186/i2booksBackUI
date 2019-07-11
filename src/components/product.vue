@@ -11,7 +11,7 @@
                         <v-layout column>
                             <v-text-field label="書名" outline v-model="product.title" :error-messages="errorMessages[0]"></v-text-field>
                             <v-text-field label="ISBN" outline v-model="product.isbn"></v-text-field>
-                            <v-select v-model="product.type" label="類別" attach :items="types" ></v-select>
+                            <v-select v-model="product.type" label="類別" attach :items="types" item-text="name" item-value="id"></v-select>
                             <v-text-field label="作者" outline v-model="product.authors"></v-text-field>
                             <v-text-field label="出版日期" outline v-model="product.publishedDate"></v-text-field>
                             <v-text-field label="數量" outline v-model="product.number"></v-text-field>
@@ -101,7 +101,7 @@
                 </td>
                 <td>{{ props.item.id }}</td>
                 <td>{{ props.item.title }}</td>  
-                <td >{{ props.item.type }}</td>
+                <td >{{ typeMap(props.item.type) }}</td>
                 <td>{{ visible_map[props.item.visible] }}</td>
                 <td>{{ on_sale_map[props.item.on_sale] }}</td>
                 <td>{{ props.item.number }}</td>
@@ -117,7 +117,7 @@
                                         <font size="4">
                                         <p>書名:&nbsp;&nbsp;{{product.title}}</p>
                                         <p>ISBN:&nbsp;&nbsp;{{product.isbn}}</p>
-                                        <p>類別:&nbsp;&nbsp;{{product.type}}</p>
+                                        <p>類別:&nbsp;&nbsp;{{typeMap(product.type)}}</p>
                                         <p>作者:&nbsp;&nbsp;{{product.author}}</p>
                                         <p>出版社:&nbsp;&nbsp;{{product.publisher}}</p>
                                         <p>出版日期:&nbsp;&nbsp;{{product.publishedDate}}</p>
@@ -228,7 +228,6 @@ export default {
         },
         Upload(genre, file,src)
         {
-            console.log(file)
             this.product.pic.push(file)
             this.product.pic[this.product.pic.length-1].url = URL.createObjectURL(file)
             let token = localStorage.getItem('token')
@@ -249,6 +248,15 @@ export default {
             })
         },
         updateConfirm(){
+            const filledList = ['title','isbn','type','number','price','sell']
+
+            for(var i of filledList){
+                if(this.product[i] == ''){
+                    alert('有必填選項未填')
+                    return
+                }
+            }
+
             let token = localStorage.getItem('token')
             const list = ['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','visible','on_sale']
             let obj = {
@@ -293,6 +301,13 @@ export default {
             }).catch(error=>{
             })
         },
+        typeMap(id){
+            for(var i in this.types){
+                if(this.types[i].id == id){
+                    return this.types[i].name
+                }
+            }
+        }
     },
     beforeMount(){
         let self = this
@@ -302,10 +317,8 @@ export default {
         }).catch(error=>{
         })
 
-        api.getProductType().then(res=>{
-            for(var i in res.data.types){
-                self.types.push(res.data.types[i].name)
-            }
+        api.getAllProductType().then(res=>{
+            self.types = res.data.types
         }).catch(error=>{
         })
     }

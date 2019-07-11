@@ -243,7 +243,6 @@ export default {
             // for(var i in this.selected){
             //     ids[i]=this.selected[i].id;
             // }
-            console.log(this.type.id)
 
             let token = localStorage.getItem('token')
             api.deleteType(token,this.type.id).then(res=>{

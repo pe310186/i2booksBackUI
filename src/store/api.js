@@ -75,7 +75,7 @@ export default {
         return client.put('/carousel',pics,{headers:{"Auth":token}})
     },
     getProduct(){
-        return client.get('/product')
+        return client.get('/product/all')
     },
     deleteProduct:function(token,ids){
         let config = {

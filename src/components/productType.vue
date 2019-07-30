@@ -265,6 +265,7 @@ export default {
                 name:"無"
             }
             self.allTypeItems.splice(0,0,obj)
+            console.log(self.allTypeItems)
         })
     }
 }

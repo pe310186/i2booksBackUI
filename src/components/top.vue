@@ -20,6 +20,7 @@ export default {
                 {title:'會員管理',src:'member'},
                 {title:'電子報',src:'newsletter'},
                 {title:'產品類別',src:'type'},
+                {title:'售出紀錄',src:'record'},
             ]
         }
     },

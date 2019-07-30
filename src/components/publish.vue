@@ -17,7 +17,6 @@
                     <P>&nbsp;&nbsp;&nbsp;</P>
                     <v-text-field label="出版社" outline v-model="product.publisher"></v-text-field>
                 </v-layout>
-                <v-text-field label="*數量" outline v-model="product.number"></v-text-field>
                 <v-layout row>
                     <v-text-field label="*原價" outline v-model="product.price"></v-text-field>
                     <p>&nbsp;&nbsp;&nbsp;</p>
@@ -27,6 +26,7 @@
                 <v-layout row>
                     <v-checkbox label="顯示" v-model="product.visible"></v-checkbox>
                     <v-checkbox label="特價" v-model="product.on_sale"></v-checkbox>
+                    <v-checkbox label="熱賣品" v-model="product.hot"></v-checkbox>
                 </v-layout>
             </v-layout>
             </v-flex>
@@ -76,21 +76,22 @@ export default {
                 pics:[],
                 visible: true,
                 on_sale: false,
+                hot: false,
             },
             types:[],
             errorMessages:[''],
         }
     },
     watch:{
-        'product.title'(newTitle,oldTitle){
-            console.log(newTitle)
-            api.getProductByTitle(newTitle).then(res=>{
-                console.log(product)
-                this.errorMessages[0] = '此書已刊登過'
-            }).catch(error=>{
-                this.errorMessages[0] = ''
-            })
-        }
+        // 'product.title'(newTitle,oldTitle){
+        //     console.log(newTitle)
+        //     api.getProductByTitle(newTitle).then(res=>{
+        //         console.log(product)
+        //         this.errorMessages[0] = '此書已刊登過'
+        //     }).catch(error=>{
+        //         this.errorMessages[0] = ''
+        //     })
+        // }
     },
     methods:{
         isbnSearch(){
@@ -130,17 +131,9 @@ export default {
                 }
             }
 
-            api.getProductByTitle(this.product.title).then(res=>{
-                alert('此書已刊登過')
-                this.errorMessages[0] = '此書已刊登過'
-                return
-            }).catch(error=>{
-                this.errorMessages[0] = ''
-            })
-
             let token = localStorage.getItem('token')
             let formdata = new FormData()
-            const list=['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','pics','visible','on_sale']
+            const list=['title','isbn','type','authors','number','price','sell','ps','description','publishedDate','pics','visible','on_sale','hot']
             for(var i of list){
                 if(i == 'pics'){
                     for(var j in this.product.pics){

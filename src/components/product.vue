@@ -115,17 +115,17 @@
                                 <v-layout column>
                                     <v-flex offset-xs2>
                                         <font size="4">
-                                        <p>書名:&nbsp;&nbsp;{{product.title}}</p>
-                                        <p>ISBN:&nbsp;&nbsp;{{product.isbn}}</p>
-                                        <p>類別:&nbsp;&nbsp;{{typeMap(product.type)}}</p>
-                                        <p>作者:&nbsp;&nbsp;{{product.author}}</p>
-                                        <p>出版社:&nbsp;&nbsp;{{product.publisher}}</p>
-                                        <p>出版日期:&nbsp;&nbsp;{{product.publishedDate}}</p>
-                                        <p>剩餘數量:&nbsp;&nbsp;{{product.number}}</p>
-                                        <p>原價:&nbsp;&nbsp;{{product.price}}</p>
-                                        <p>售價:&nbsp;&nbsp;{{product.sell}}</p>
-                                        <p>內容簡介:&nbsp;&nbsp;{{product.description}}</p>
-                                        <p>備註:&nbsp;&nbsp;{{product.ps}}</p>
+                                            <p>書名:&nbsp;&nbsp;{{product.title}}</p>
+                                            <p>ISBN:&nbsp;&nbsp;{{product.isbn}}</p>
+                                            <p>類別:&nbsp;&nbsp;{{typeMap(product.type)}}</p>
+                                            <p>作者:&nbsp;&nbsp;{{product.author}}</p>
+                                            <p>出版社:&nbsp;&nbsp;{{product.publisher}}</p>
+                                            <p>出版日期:&nbsp;&nbsp;{{product.publishedDate}}</p>
+                                            <p>剩餘數量:&nbsp;&nbsp;{{product.number}}</p>
+                                            <p>原價:&nbsp;&nbsp;{{product.price}}</p>
+                                            <p>售價:&nbsp;&nbsp;{{product.sell}}</p>
+                                            <p>內容簡介:&nbsp;&nbsp;{{product.description}}</p>
+                                            <p>備註:&nbsp;&nbsp;{{product.ps}}</p>
                                         </font>
                                     </v-flex>
                                 </v-layout>
@@ -183,7 +183,9 @@ export default {
                 publisher:'',//出版社
                 pic:[],
                 visible:false,
-                on_sale:false
+                on_sale:false,
+                hot:false,
+                recommend:false,
             },
             types:[],
             dialog:[false,false,false],
@@ -207,6 +209,8 @@ export default {
             for(var i in this.products){
                 if(this.products[i].id == id){
                     this.product = this.products[i]
+                    this.product.type = parseInt(this.product.type) // string to int
+                    console.log(this.product)
                     return
                 }
             }
@@ -310,7 +314,8 @@ export default {
     },
     beforeMount(){
         let self = this
-        api.getProduct().then(res=>{
+        let token = localStorage.getItem('token')
+        api.getProduct(token).then(res=>{
             console.log(self.products)
             self.products =  res.data.products
         }).catch(error=>{

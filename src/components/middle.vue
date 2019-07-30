@@ -21,6 +21,9 @@
         <v-card v-if="path == 'type'" flat>
             <type></type>
         </v-card>
+        <v-card v-if="path == 'record'" flat>
+            <record></record>
+        </v-card>
     </v-container>
 </template>
 
@@ -28,7 +31,6 @@
 export default {
     props:['path'],
     beforeMount(){
-        console.log(this.path)
     }
 }
 </script>

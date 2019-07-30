@@ -19,6 +19,7 @@ export default {
                 {title:'賣二手書',src:'sell'},
                 {title:'會員管理',src:'member'},
                 {title:'電子報',src:'newsletter'},
+                {title:'售出紀錄',src:'record'},
             ]
         }
     },

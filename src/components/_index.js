@@ -11,6 +11,7 @@ import About from './about.vue'
 import Editorbar from './editorbar.vue'
 import Sell from './sell.vue'
 import Tree from './tree.vue'
+import Record from './record.vue'
 
 export default{
     Left:Left,
@@ -26,4 +27,5 @@ export default{
     Editorbar:Editorbar,
     Sell: Sell,
     Tree: Tree,
+    Record: Record,
 }

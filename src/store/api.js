@@ -74,8 +74,8 @@ export default {
         let pics = [pic1,pic2]
         return client.put('/carousel',pics,{headers:{"Auth":token}})
     },
-    getProduct(){
-        return client.get('/product/all')
+    getProduct(token){
+        return client.get('/product/all',{headers:{"Auth":token}})
     },
     deleteProduct:function(token,ids){
         let config = {

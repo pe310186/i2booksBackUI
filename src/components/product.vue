@@ -104,46 +104,48 @@
                 <td >{{ typeMap(props.item.type) }}</td>
                 <td>{{ visible_map[props.item.visible] }}</td>
                 <td>{{ on_sale_map[props.item.on_sale] }}</td>
-                <td>{{ props.item.number }}</td>
-                <td>
-                    <v-dialog v-model="dialog[0]" width="1000px">
-                        <v-btn @click="detail(props.item.id)" slot="activator">詳細</v-btn>
-                        <v-card>
-                            <br>
-                            <v-layout>
-                                <v-flex xs4>
-                                <v-layout column>
-                                    <v-flex offset-xs2>
-                                        <font size="4">
-                                            <p>書名:&nbsp;&nbsp;{{product.title}}</p>
-                                            <p>ISBN:&nbsp;&nbsp;{{product.isbn}}</p>
-                                            <p>類別:&nbsp;&nbsp;{{typeMap(product.type)}}</p>
-                                            <p>作者:&nbsp;&nbsp;{{product.author}}</p>
-                                            <p>出版社:&nbsp;&nbsp;{{product.publisher}}</p>
-                                            <p>出版日期:&nbsp;&nbsp;{{product.publishedDate}}</p>
-                                            <p>剩餘數量:&nbsp;&nbsp;{{product.number}}</p>
-                                            <p>原價:&nbsp;&nbsp;{{product.price}}</p>
-                                            <p>售價:&nbsp;&nbsp;{{product.sell}}</p>
-                                            <p>內容簡介:&nbsp;&nbsp;{{product.description}}</p>
-                                            <p>備註:&nbsp;&nbsp;{{product.ps}}</p>
-                                        </font>
-                                    </v-flex>
-                                </v-layout>
-                                </v-flex>
-                                <v-flex xs6>
-                                    <v-carousel :cycle="false" height="400px">
-                                        <v-carousel-item v-for="(item,i) in product.pic" :key="i" next-icon="mdi-dark mdi-arrow-right" >
-                                            <v-img :src="item.url" contain height="380px"></v-img>
-                                        </v-carousel-item>
-                                    </v-carousel>
-                                </v-flex>
-                            </v-layout>
-                            <br>
-                        </v-card>
-                    </v-dialog>
-                </td>
+                <td v-if="props.item.number==1">有存貨</td>
+                <td v-else><font color="red">已售罄</font></td>
+                <td><v-btn @click="detail(props.item.id)">詳細</v-btn></td>
             </template>
         </v-data-table>
+        <v-dialog v-model="dialog[0]" width="1000px">
+            <v-card width="1000px">
+                <br>
+                <br>
+                <v-layout>
+                    <v-flex xs4>
+                        <v-layout column>
+                            <v-flex offset-xs2>
+                                <font size="4">
+                                    <p>書名:&nbsp;&nbsp;{{product.title}}</p>
+                                    <p>ISBN:&nbsp;&nbsp;{{product.isbn}}</p>
+                                    <p>類別:&nbsp;&nbsp;{{typeMap(product.type)}}</p>
+                                    <p>作者:&nbsp;&nbsp;{{product.author}}</p>
+                                    <p>出版社:&nbsp;&nbsp;{{product.publisher}}</p>
+                                    <p>出版日期:&nbsp;&nbsp;{{product.publishedDate}}</p>
+                                    <p v-if="product.number==1">貨品狀況:&nbsp;&nbsp;<font color="red">已售罄</font></p>
+                                    <p v-else>貨品狀況:&nbsp;&nbsp;有存貨</p>
+                                    <p>原價:&nbsp;&nbsp;{{product.price}}</p>
+                                    <p>售價:&nbsp;&nbsp;{{product.sell}}</p>
+                                    <p style="{word-break: break-all;}">內容簡介:&nbsp;&nbsp;{{product.description}}</p>
+                                    <p>備註:&nbsp;&nbsp;{{product.ps}}</p>
+                                </font>
+                            </v-flex>
+                        </v-layout>
+                    </v-flex>
+                    <v-flex xs6 offset-xs1>
+                        <v-carousel :cycle="false" height="300px">
+                            <v-carousel-item v-for="(item,i) in product.pic" :key="i" next-icon="mdi-dark mdi-arrow-right" >
+                                <v-img :src="item.url" contain height="280px"></v-img>
+                            </v-carousel-item>
+                        </v-carousel>
+                    </v-flex>
+                </v-layout>
+                <br>
+                <br>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
@@ -165,7 +167,7 @@ export default {
                 //{text:'ISBN',align: 'left',sortable: false,value: 'isbn',},
                 {text:'顯示',align: 'left',sortable: true,value: 'visible'},
                 {text:'特價',align: 'left',sortable: true,value: 'on_sale'},
-                {text:'數量',align: 'left',sortable: true,value: 'number'},
+                {text:'貨品狀況',align: 'left',sortable: true,value: 'number'},
                 {text:'詳細',align:'left',sortable:false,value:'detail'},
             ],
             products:[],
@@ -201,9 +203,11 @@ export default {
             for(var i in this.products){
                 if(this.products[i].id == id){
                     this.product = this.products[i]
+                    this.dialog[0] = true
                     return
                 }
             }
+            
         },
         update(id){
             for(var i in this.products){
@@ -238,7 +242,7 @@ export default {
             let self = this
             formdata.append("pic",file)
             api.createProductPic(token,this.product.id,formdata).then(res=>{
-                api.getProduct().then(res=>{
+                api.getAllProduct(token).then(res=>{
                     self.products = res.data.products
                     for(var i in res.data.products){
                         if(res.data.products[i].id == self.product.id){
@@ -315,7 +319,7 @@ export default {
     beforeMount(){
         let self = this
         let token = localStorage.getItem('token')
-        api.getProduct(token).then(res=>{
+        api.getAllProduct(token).then(res=>{
             console.log(self.products)
             self.products =  res.data.products
         }).catch(error=>{

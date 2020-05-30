@@ -5,7 +5,7 @@
         <v-card-text><font size="5">登入</font></v-card-text>
            <v-text-field v-model="account" label="帳號" class="input-group--focused"></v-text-field>
            <v-text-field v-model="password" :type="'password'" label="密碼" class="input-group--focused"></v-text-field>
-           <v-btn @click="login" large>登入</v-btn>
+           <center><v-btn @click="login" large>登入</v-btn></center>
         </v-flex>
     </v-container>
 </template>

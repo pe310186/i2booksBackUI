@@ -21,8 +21,8 @@
         <v-card v-if="path == 'type'" flat>
             <type></type>
         </v-card>
-        <v-card v-if="path == 'record'" flat>
-            <record></record>
+        <v-card v-if="path == 'order'" flat>
+            <order></order>
         </v-card>
     </v-container>
 </template>

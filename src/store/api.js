@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 let client = axios.create({
-  baseURL: 'http://localhost:3000',
+  //baseURL: 'http://localhost:3000',
+  baseURL: 'http://210.61.46.101:8787',
   timeout: 60000
 })
 
@@ -74,8 +75,11 @@ export default {
         let pics = [pic1,pic2]
         return client.put('/carousel',pics,{headers:{"Auth":token}})
     },
-    getProduct(token){
+    getAllProduct(token){
         return client.get('/product/all',{headers:{"Auth":token}})
+    },
+    getProduct(id){
+        return client.get('/product/'+id)
     },
     deleteProduct:function(token,ids){
         let config = {
@@ -136,4 +140,20 @@ export default {
     getArticle(id){
         return client.get('./article/'+id)
     },
+    getAllOrder(token){
+        return client.get('/order/all',{headers:{"Auth":token}})
+    },
+    changeOrderState(token,data){
+        return client.put('/order/state',data,{headers:{"Auth":token}})
+    },
+    cancelOrder(token,data){
+        let config = {
+            headers:{
+                'Auth': token,
+            },
+            data: data
+        }
+        console.log(config)
+        return client.delete('/order',config)
+    }
 }

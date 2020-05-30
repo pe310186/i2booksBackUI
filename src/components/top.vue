@@ -1,7 +1,9 @@
 <template>
     <v-container>
         <center>
-            <font size="4" v-bind:key=item.title v-for="item in list" v-if="item.src==path">{{item.title}}</font>
+            <div v-bind:key=item.title v-for="item in list">
+                <font size="4" v-if="item.src==path">{{item.title}}</font>
+            </div>
         </center>
     </v-container>
 </template>
@@ -20,7 +22,7 @@ export default {
                 {title:'會員管理',src:'member'},
                 {title:'電子報',src:'newsletter'},
                 {title:'產品類別',src:'type'},
-                {title:'售出紀錄',src:'record'},
+                {title:'訂單管理',src:'order'},
             ]
         }
     },

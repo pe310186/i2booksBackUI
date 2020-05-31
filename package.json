@@ -13,7 +13,7 @@
     "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "^0.18.0",
     "material-design-icons-iconfont": "^4.0.5",
-    "tinymce": "^5.0.4",
+    "tinymce": "^5.2.2",
     "tt-vue-editor": "^2.1.26",
     "vue": "^2.5.2",
     "vue-froala-wysiwyg": "^2.9.5",

@@ -22,7 +22,8 @@
     "vue-wangeditor-simple": "^1.7.3",
     "vue2-editor": "^2.6.6",
     "vuetify": "^1.5.1",
-    "wangeditor": "^3.1.1"
+    "wangeditor": "^3.1.1",
+    "webpack-dev-server": "^2.9.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -59,7 +60,6 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-dev-server": "^3.1.11",
     "webpack-merge": "^4.1.0"
   },
   "engines": {

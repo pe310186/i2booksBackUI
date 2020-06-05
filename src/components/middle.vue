@@ -24,6 +24,11 @@
         <v-card v-if="path == 'order'" flat>
             <order></order>
         </v-card>
+        <v-card v-if="path== 'tree'" flat>
+            <center>
+                <tree></tree>
+            </center>
+        </v-card>
     </v-container>
 </template>
 

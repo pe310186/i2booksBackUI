@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-btn @click="treeDialog = true">樹狀圖</v-btn>
+        <a target="_blank" href="/#/home/tree"><v-btn>樹狀圖</v-btn></a>
         <v-dialog v-model="dialog[0]" width="600px">
             <v-btn slot="activator" @click="create()">新增</v-btn>
              <v-card>
@@ -92,6 +92,7 @@
                 <td><v-btn @click="deleteType(props.item.id)" @click.stop="deleteDialog = true">刪除</v-btn></td>
             </template>
         </v-data-table>
+        <!---
         <v-dialog v-model="treeDialog" fullscreen>
             <v-card flat>
                 <center>
@@ -104,6 +105,7 @@
                 </center>
             </v-card>
         </v-dialog>
+        --->
     </v-container>
 </template>
 
